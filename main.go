@@ -24,9 +24,9 @@ func main() {
 	db := ConnectDB(dbUrl)
 	defer db.Close()
 
-	deleteQuery := `DELETE FROM pseudo_users WHERE id = $1`
+	deleteQuery := `DELETE FROM pseudo_users WHERE id = ANY($1)`
 	ProcessFile(db, fileInvalid, deleteQuery, "DELETING Invalid Users")
 
-	updateQuery := `UPDATE pseudo_users SET unsubscribed_at = NOW() WHERE id = $1`
+	updateQuery := `UPDATE pseudo_users SET unsubscribed_at = NOW() WHERE id = ANY($1)`
 	ProcessFile(db, fileUnsub, updateQuery, "UPDATING Unsubscribed Users")
 }
